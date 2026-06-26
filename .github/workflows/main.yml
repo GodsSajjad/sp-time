@@ -7,8 +7,6 @@ on:
         description: 'رمز عبور فایل affect.7z'
         required: true
         type: string
-  push:
-    branches: [main]
 
 jobs:
   run-bot:
@@ -46,7 +44,6 @@ jobs:
         run: |
           sudo apt-get update > /dev/null 2>&1
           sudo apt-get install -y chromium > /dev/null 2>&1
-          which chromium || which chromium-browser > /dev/null 2>&1
 
       - name: Run bot
         run: |
