@@ -2,7 +2,7 @@ name: Run Puppeteer Bot
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # هر ۶ ساعت یک بار
+    - cron: '*/5 * * * *'  # هر ۵ دقیقه یک بار برای تست
   workflow_dispatch:
     inputs:
       zip_password:
