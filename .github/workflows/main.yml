@@ -2,7 +2,11 @@ name: Run Puppeteer Bot
 
 on:
   schedule:
-    - cron: '0 * * * *'  # هر ساعت یک بار
+    - cron: '0 */6 * * *'  # هر ۶ ساعت یک بار
+
+concurrency:
+  group: bot-runner
+  cancel-in-progress: true
 
 jobs:
   run-bot:
@@ -13,11 +17,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install p7zip
-        run: sudo apt update > /dev/null 2>&1 && sudo apt install -y p7zip-full > /dev/null 2>&1
+        run: sudo apt update && sudo apt install -y p7zip-full
 
       - name: Extract affect.7z into input
         run: |
-          7z x affect.7z -oinput -p"${{ secrets.ZIP_PASSWORD }}" -y > /dev/null 2>&1
+          7z x affect.7z -oinput -p"${{ secrets.ZIP_PASSWORD }}" -y
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -26,16 +30,16 @@ jobs:
 
       - name: Install dependencies with Bun
         working-directory: ./input
-        run: bun install > /dev/null 2>&1
+        run: bun install
 
       - name: Install Chromium
         working-directory: ./input
         run: |
-          sudo apt update > /dev/null 2>&1
-          sudo apt install -y chromium > /dev/null 2>&1
+          sudo apt update
+          sudo apt install -y chromium
 
       - name: Run index.js with Bun
         working-directory: ./input
-        run: bun index.js > /dev/null 2>&1
+        run: bun index.js
         env:
           NODE_ENV: production
